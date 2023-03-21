@@ -8,17 +8,19 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-const whiteList = ['http://locahost:8080', 'https://myapp.com']
+
+const whitelist = ['http://localhost:8080', 'https://myapp.com', 'https://nose-js-api-rest-express.vercel.app/' ];
 const options = {
-  origin: (origin, cb) => {
-    if(whiteList.includes(origin || !origin )){
-      cb(null, true);
+  origin: (origin, callback) =>{
+    if(whitelist.includes(origin) || !origin){
+      callback(null, true);
     } else {
-      cb(new Error('no permitido manito'))
+      callback(new Error('no permitido manito'));
     }
   }
 }
-app.use(cors(options));
+app.use(cors(options))
+
 
 app.get('/', (req, res)=>{
   res.send('hola mi server en express')
